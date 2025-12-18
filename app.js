@@ -1,28 +1,15 @@
-import { auth, createUserWithEmailAndPassword, db, doc, onAuthStateChanged, setDoc } from "./config.js";
 
-function checkUserState() {
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/auth.user
-            const uid = user.uid;
-            console.log("user mojood hai" , uid)
-                window.location.replace("./dashboard.html")
-        } else {
-            console.log("user mojoood nh he")
-            // User is signed out
-            // ...
-        }
-    });
 
-}
-checkUserState()
+import { auth, createUserWithEmailAndPassword, db, doc, setDoc } from "./config.js";
+// import { getUser } from "./login.js"; // Note: Signup page par iski zarurat shayad na ho, agar ye auto-redirect karta hai to isse hata dein.
+
 let email = document.getElementById("email");
 let password = document.getElementById("password");
 let firstName = document.getElementById("firstName");
 let lastName = document.getElementById("lastName");
 let phoneNumber = document.getElementById("phoneNumber");
-let signupBtn = document.getElementById("signup-btn"); 
+let signupBtn = document.getElementById("signup-btn"); // Apne button ko id="signup-btn" lazmi dein HTML ma
+
 
 const loadingCard = document.getElementById("loadingCard"); 
 const form = document.querySelector(".form"); 
@@ -35,39 +22,46 @@ function hideLoading() {
     loadingCard.classList.remove('active');
     form.classList.remove('disabled');
 }
-
-
 window.signUp = async (event) => {
-    event.preventDefault();     
-    showLoading(); 
+    event.preventDefault(); // Form ko refresh hone se rokta hai
+showLoading();
+     
+
     try {
         console.log("Account create ho raha hai...");
         
+        // 2. Pehle Authentication complete hone ka wait karein
         const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
         const user = userCredential.user;
         
         console.log("User create ho gaya:", user.uid);
 
+        // 3. Ab Database mein data save hone ka WAIT karein (await lagana zaroori hai)
         await saveDataToDb(firstName, lastName, email, phoneNumber, user.uid);
 
+        // 4. Jab upar wali line complete ho jaye, tab hi redirect karein
         console.log("Sab kuch sahi chal gaya, ab redirect kar rahe hain...");
-        
-        
-        window.location.replace("./dashboard.html"); 
+        window.location.href = "./dashboard.html";
 
     } catch (error) {
+        hideLoading();
+        // Agar koi error aye to yahan pakra jayega
         const errorMessage = error.message;
         console.log("Masla agaya hai:", errorMessage);
-        alert(errorMessage); 
-        
-        hideLoading(); 
-    
+        alert(errorMessage); // User ko batayen ke error aya hai
+
+        // Button ko wapis normal karein taake user dobara try kar sake
+        if(signupBtn) {
+            signupBtn.innerText = "Signup";
+            signupBtn.disabled = false;
+        }
     }
 }
 
 async function saveDataToDb(firstName, lastName, email, phoneNumber, userId) {
     console.log("Database mein data ja raha hai...");
     
+    // Yahan await ensure karega ke jab tak data write na ho jaye, code aage na barhe
     await setDoc(doc(db, "users", userId), {
         firstName: firstName.value,
         lastName: lastName.value,

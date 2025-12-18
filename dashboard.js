@@ -21,9 +21,8 @@ function getUser() {
 }
 getUser(); 
 window.openChat = (friendId, friendName) => { 
-    
     console.log("Chat View open ho raha hai:", friendName, "ID:", friendId);
-    
+
     const defaultView = document.getElementById('default-chat-view');
     if (defaultView) {
         defaultView.classList.add('hidden');
