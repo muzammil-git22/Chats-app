@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+     <div class="card" id="loadingCard"> 
+ <div class="loader">
+ <p>loading</p>
+ <div class="words">
+ <span class="word">Welcome</span>
+ <span class="word">Chatsapp</span>
+ <span class="word">switches</span>
+ </div>
+ </div>
+</div>    
+<form  class="form" onsubmit="signIn(event)">
+    <p class="title">Register </p>
+    <p class="message">SignIn now and get full access to our app. </p>
+            
+    <label>
+        <input class="input" type="email" id="email" placeholder="" required="">
+        <span>Email</span>
+    </label> 
+        
+    <label>
+        <input class="input" id="password" type="password" placeholder="" required="">
+        <span>Password</span>
+    </label>
+     <input type="submit" class="submit"  value="submit" id="">
+	<p class="signin">Already have an acount ? <a href="./index.html">SignUp</a> </p>
+</form>
+
+<script type="module" src="Signin.js"></script>
+<script type="module" src="config.js"></script>
+</body>
+</html>
