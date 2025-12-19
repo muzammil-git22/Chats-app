@@ -24,10 +24,21 @@
             color: transparent;
         }
         /* Background image for chat body */
-        #chat-window-view #chat-body-messages {
-            background-image: url('https://i.imgur.com/8QG9sW7.png'); /* WhatsApp default-like background */
-            background-repeat: repeat;
-        }
+       #chat-body-messages {
+    /* Background image agar lagani hai toh uska path sahi karein */
+    background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); 
+    background-color: #0b141a; /* Dark background color */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.06; /* Wallpaper ko halka rakhne ke liye */
+    position: relative;
+}
+
+/* Agar aapko wallpaper nahi chahiye toh sirf ye code likhen */
+#chat-body-messages {
+    background: #0b141a !important; /* Pure dark color */
+}
     </style>
 </head>
 <body class="bg-[#111b21] text-[#e9edef] h-screen overflow-hidden font-sans">
